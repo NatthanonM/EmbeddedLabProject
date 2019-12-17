@@ -50,6 +50,8 @@ I2S_HandleTypeDef hi2s3;
 
 SPI_HandleTypeDef hspi1;
 
+UART_HandleTypeDef huart2;
+
 osThreadId defaultTaskHandle;
 osTimerId myTimer01Handle;
 /* USER CODE BEGIN PV */
@@ -62,6 +64,7 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_USART2_UART_Init(void);
 void StartDefaultTask(void const * argument);
 void Callback01(void const * argument);
 
@@ -106,6 +109,7 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -313,6 +317,39 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -415,6 +452,27 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
+
+void nodemcu_blink(void const *args) {
+	while (1) {
+		char buffer1 = '1';
+		char buffer0 = '0';
+		HAL_UART_Transmit(&huart2, buffer1, strlen(buffer1), 1000);
+		HAL_Delay(1000);
+		HAL_UART_Transmit(&huart2, buffer0, strlen(buffer0), 1000);
+		HAL_Delay(1000);
+	}
+}
+void stm32f4_blink(void const *args) {
+	while (1) {
+		HAL_GPIO_TogglePin(GPIOD, LD3_Pin);
+		HAL_Delay(1000);
+	}
+}
+
+osThreadDef(mcu, nodemcu_blink, osPriorityNormal, 0, 128);
+osThreadDef(stm, stm32f4_blink, osPriorityNormal, 0, 128);
+
 void StartDefaultTask(void const * argument)
 {
     
@@ -425,6 +483,8 @@ void StartDefaultTask(void const * argument)
 
   /* USER CODE BEGIN 5 */
   osTimerStart(myTimer01Handle, 25);
+  osThreadId mcuHandle = osThreadCreate(osThread(mcu), NULL);
+  osThreadId stmHandle = osThreadCreate(osThread(stm), NULL);
   /* Infinite loop */
   for(;;)
   {
