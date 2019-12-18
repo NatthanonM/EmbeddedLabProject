@@ -3,8 +3,10 @@
 #include <MicroGear.h>
 #include <SoftwareSerial.h>
 SoftwareSerial chat(D5, D6);
-const char* ssid = "モバイル";
-const char* password = "blanches";
+//const char* ssid = "モバイル";
+//const char* password = "blanches";
+const char* ssid = "TS";
+const char* password = "hzec1865";
 
 #define APPID "ELS"
 #define KEY "Bs4VD0geiazlOOH"
