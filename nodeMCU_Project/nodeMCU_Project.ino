@@ -19,9 +19,11 @@ MicroGear microgear(client);
 
 ///////////////////////////////////////////////////////////////////////////
 
-// If a new message arrives, do this
+// If a new message arrives, do this // 12 71.0 27.8
+                                     // 60 24   
 void hcontrol(String h){
     chat.print(h);
+    //microgear.chat(WEB, "12 72.1 24.5");
     Serial.println(h);
   }
 void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
@@ -130,7 +132,6 @@ void loop() {
   // To check if the microgear is still connected.
   if (microgear.connected()) {
       Serial.println("connected");
-
       // Call this method regularly otherwise the connection may be lost.
       microgear.loop();
 
@@ -140,20 +141,20 @@ void loop() {
       // Chat with the microgear named ALIAS which is myself.
         // microgear.chat(ALIAS,20);
         timer = 0;
+        Serial.print("1");
       } 
       else timer += 100;
       if (chat.available() > 0) {
-
+        Serial.print("2");
         int rh1 = chat.parseInt();
         int rh2 = chat.parseInt();
         int tp1 = chat.parseInt();
         int tp2 = chat.parseInt();
         if (chat.read() == '\n') {
-//          Serial.print(rh1); Serial.print(".");Serial.print(rh2); Serial.print(" ");  
-//          Serial.print(tp1); Serial.print(".");Serial.print(tp2);
-//          Serial.println("");
           String val = String("12")+" "+String(rh1)+"."+String(rh2)+" "+String(tp1)+"."+String(tp2);
+          Serial.print(val);
           microgear.chat(ALIAS, val);
+          microgear.chat(WEB, val);
         }
       }
       
