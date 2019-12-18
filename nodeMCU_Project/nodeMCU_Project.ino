@@ -1,7 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <MicroGear.h>
-
+#include <SoftwareSerial.h>
+SoftwareSerial chat(D5, D6);
 const char* ssid = "モバイル";
 const char* password = "blanches";
 
@@ -19,6 +20,10 @@ MicroGear microgear(client);
 ///////////////////////////////////////////////////////////////////////////
 
 // If a new message arrives, do this
+void hcontrol(String h){
+    chat.print(h);
+    Serial.println(h);
+  }
 void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
   Serial.print("Incoming message --> ");
   msg[msglen] = '\0';
@@ -31,7 +36,10 @@ void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
   Serial.println();
 
   String state = String(strState).substring(0, msglen);
-  
+  if(state.substring(0,2) =="60"){
+    hcontrol(state.substring(3,5));
+    delay(1000);
+  }
   // Processing Section
 
   // Switch the LED on the nodeMCU
@@ -44,13 +52,7 @@ void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
   }*/
 
   // Sending a value of i to Web
-  int i = 0;
-  while (true) {
-    i += 1;
-    microgear.chat(ALIAS, i);
-    delay(1000);
-  }
-
+  
   //End of Processing Section
 }
 
@@ -91,8 +93,11 @@ void setup() {
 
   // Call onConnected() when NETPIE connection is established.
   microgear.on(CONNECTED,onConnected);
-
+  pinMode(D5, INPUT);
+  pinMode(D6, OUTPUT);
+  
   Serial.begin(115200);
+  chat.begin(115200); 
   Serial.println("Starting...");
 
   // Initial WIFI, this is just a basic method to configure WIFI on ESP8266.
@@ -115,7 +120,7 @@ void setup() {
   microgear.connect(APPID);
 
   // For testing that is the nodeMCU receives data.
-  pinMode(LED_BUILTIN, OUTPUT);
+  //pinMode(LED_BUILTIN, OUTPUT);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -137,6 +142,20 @@ void loop() {
         timer = 0;
       } 
       else timer += 100;
+      if (chat.available() > 0) {
+
+        int rh1 = chat.parseInt();
+        int rh2 = chat.parseInt();
+        int tp1 = chat.parseInt();
+        int tp2 = chat.parseInt();
+        if (chat.read() == '\n') {
+//          Serial.print(rh1); Serial.print(".");Serial.print(rh2); Serial.print(" ");  
+//          Serial.print(tp1); Serial.print(".");Serial.print(tp2);
+//          Serial.println("");
+          String val = String("12")+" "+String(rh1)+"."+String(rh2)+" "+String(tp1)+"."+String(tp2);
+          microgear.chat(ALIAS, val);
+        }
+      }
       
   } else {
       Serial.println("connection lost, reconnect...");
