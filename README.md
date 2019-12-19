@@ -3,7 +3,7 @@
 Objective of this project is to invent automatical watering plants system in greenhouse for controling and monitoring the humidity's greenhouse by communication thruogh the internet. The system can be used for reducing cost of the labors by the notifications and user's setting.
 ## Sensors
 Input: 1 Humidity Sensor
-Output: 1 Water Pump
+,Output: 1 Water Pump
 ## Boards
 1. ESP8266-Node-MCU
 2. STM32F407G-Disc1 (STM32F4DISCOVERY)
