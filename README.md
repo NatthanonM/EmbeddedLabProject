@@ -8,8 +8,8 @@ Input: 1 Humidity Sensor
 1. ESP8266-Node-MCU
 2. STM32F407G-Disc1 (STM32F4DISCOVERY)
 ## Brief description of processes of the system
-1. User input perferred humidity through website of the system.
-2. Humidity sensor send humidity to system controllers.
-3. The system controllers calculate the difference of current humidity and input fron user.
+1. User inputs preferred humidity through website of the system.
+2. Humidity sensor sends current humidity to system controllers.
+3. The system controllers calculate the difference of current humidity and the input from user.
 4. The system controllers control output of water pump.
 5. The system controllers send current humidity every peroid of time to the website.
