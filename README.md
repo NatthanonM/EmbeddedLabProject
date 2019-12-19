@@ -1,13 +1,15 @@
 ## EmbbedLabProject
-# รายละเอียดของโปรเจค
-วัตถุประสงค์ของโปรเจคของเราคือการสร้างระบบรดน้ำต้นไม้อัตโนมัติสำหรับใช้ในเรือนเพาะปลูกเพื่อการควบคุมการรดน้ำได้จากระยะไกลและอ่านค่าความชื้นผ่านทางอินเทอร์เน็ต โดยลดค่าใช้จ่ายจากการจ้างแรงงานคนในการรดน้ำตามโดยใช้เซนเซอร์วัดความชื้นในการแจ้งเตือนและตั้งค่าให้ระบบรดน้ำทำงานอัตโนมัติหรือตามที่ผู้ใช้ต้องการ
-# Sensor ที่จะใช้ในโปรเจค
-Input: Humidity Sensor จำนวน 1 ตัว
-Output: Pump ที่ปล่อยน้ำ จำนวน 1 ตัว
-# หลักการทำงานของระบบ
-1. ผู้ใช้ input ค่าความชื้นภายในเรือนกระจกที่ต้องการผ่านทางอินเทอร์เน็ต
-2. sensor อ่านค่าความชื้นส่งไปที่บอร์ด STM32F4DISCOVERY 
-3. บอร์ด STM32F4DISCOVERY คำนวณผลต่างระหว่างค่าความชื้นปัจจุบันกับค่าความชื้นทีู่้ใช้ต้องการ
-4. บอร์ด STM32F4DISCOVERY ประมวลผลค่า output แล้วส่งค่าดังกล่าวไปที่พัดลมและตัวพ่นน้ำ
-5. พัดลมและตัวพ่นน้ำทำงานการค่าที่อ่านได้จากบอร์ด STM32F4DISCOVERY 
-6. บอร์ดมีการส่งค่าความชื้นปัจจุบันที่วัดได้ผ่านทางอินเทอร์เน็ตให้ผู้ใช้ ทุกๆช่วงเวลาที่กำหนด
+# Project description
+Objective of this project is to invent automatical watering plants system in greenhouse for controling and monitoring the humidity's greenhouse by communication thruogh the internet. The system can be used for reducing cost of the labors by the notifications and user's setting.
+# Sensors
+Input: 1 Humidity Sensor
+Output: 1 Water Pump
+# Boards
+1. ESP8266-Node-MCU
+2. STM32F407G-Disc1 (STM32F4DISCOVERY)
+# Brief description of processes of the system
+1. User input perferred humidity through website of the system.
+2. Humidity sensor send humidity to system controllers.
+3. The system controllers calculate the difference of current humidity and input fron user.
+4. The system controllers control output of water pump.
+5. The system controllers send current humidity every peroid of time to the website.
