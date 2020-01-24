@@ -43,6 +43,12 @@ void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
   if(state.substring(0,2) =="60"){
     hcontrol(state.substring(3,5));
     delay(1000);
+  }else if(state.substring(0,2) == "15"){
+    hcontrol("15");
+    delay(1000);
+  }else if(state.substring(0,2) == "13"){
+    hcontrol("13");
+    delay(1000);
   }
   // Processing Section
 
@@ -143,11 +149,11 @@ void loop() {
       // Chat with the microgear named ALIAS which is myself.
         // microgear.chat(ALIAS,20);
         timer = 0;
-        Serial.print("1");
+        //Serial.print("1");
       } 
       else timer += 100;
       if (chat.available() > 0) {
-        Serial.print("2");
+        //Serial.print("2");
         int rh1 = chat.parseInt();
         int rh2 = chat.parseInt();
         int tp1 = chat.parseInt();
