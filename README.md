@@ -1,4 +1,4 @@
-# EmbbedLabProject (The actual real project code is "Completed Project.zip")
+# EmbbedLabProject
 ## Project description
 Objective of this project is to invent automatical watering plants system in greenhouse for controling and monitoring the humidity's greenhouse by communication thruogh the internet. The system can be used for reducing cost of the labors by the notifications and user's setting.
 ## Sensors
